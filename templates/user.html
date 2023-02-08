@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <div class="page-header">
+        <h1>Hello, {{ name }}!</h1>
+        <p>{{url_for('user', name=name, _external=True, page=2, version=1)}}</p>
+        <p>{{y}}</p>
+    </div>
+{% endblock %}
