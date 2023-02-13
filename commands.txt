@@ -1,4 +1,53 @@
-source /home/lhadri/flasky/myflaskvenv/bin/activate
+// source /home/lhadri/flasky/myflaskvenv/bin/activate
+source mve/bin/activate
+
 export FLASK_APP=hello.py
+flask shell
+from hello import db
+db.create_all()
+db.drop_all()
+
+flask db init   # add support for database migrations. This command creates a migrations directory, where all the migration scripts will be
+stored.
+flask db migrate -m "my message"
+flask db upgrade   # applies updates to the tables without affecting their contents.
+
 export FLASK_DEBUG=1
 flask run
+
+
+-------------------------------------------------------
+
+>>> from hello import db            # not needed when using shell_context_processor
+>>> db.create_all()
+>>> from hello import Role, User    # not needed when using shell_context_processor
+>>> admin_role = Role(name='Admin')
+>>> mod_role = Role(name='Moderator')
+>>> user_role = Role(name='User')
+>>> user_john = User(username='john', role=admin_role)
+>>> user_susan = User(username='susan', role=user_role)
+>>> user_david = User(username='david', role=user_role)
+>>> db.session.add_all([admin_role, mod_role, user_role, user_john, user_susan, user_david])
+>>> admin_role.name = 'Administrator'
+>>> db.session.add(admin_role)
+>>> db.session.commit()
+
+>>> db.session.delete(mod_role)
+>>> db.session.commit()
+
+>>> Role.query.all()
+[<Role 'Administrator'>, <Role 'User'>]
+
+>>> User.query.all()
+[<User 'john'>, <User 'susan'>, <User 'david'>]
+
+>>> User.query.filter_by(role=user_role).all()
+[<User 'susan'>, <User 'david'>]
+
+>>> user_role = Role.query.filter_by(name='User').first()  # issues a query that loads the user role with name "User"
+
+>>> users = user_role.users
+>>> users
+[<User 'susan'>, <User 'david'>]
+>>> users[0].role
+<Role 'User'>

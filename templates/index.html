@@ -16,6 +16,11 @@ Index
 {% block page_content %}
 <div class="page-header">
     <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    {% if not known %}
+    <p>Pleased to meet you!</p>
+    {% else %}
+    <p>Happy to see you again!</p>
+    {% endif %}
 </div>
 <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
 <p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
@@ -24,4 +29,3 @@ Index
     {{ form.hidden_tag() }} {{ form.name.label(for='my-text-field') }} {{ form.name(id='my-text-field') }} {{ form.submit(class='btn') }}
 </form> -->
 {% endblock %}
-
