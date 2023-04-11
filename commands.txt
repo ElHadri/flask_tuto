@@ -1,7 +1,7 @@
 // source /home/lhadri/flasky/myflaskvenv/bin/activate
 source mve/bin/activate
 
-export FLASK_APP=hello.py
+export FLASK_APP=flasky.py
 flask shell
 from hello import db
 db.create_all()
@@ -14,7 +14,6 @@ flask db upgrade   # applies updates to the tables without affecting their conte
 
 export FLASK_DEBUG=1
 flask run
-
 
 -------------------------------------------------------
 
